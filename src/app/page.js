@@ -352,10 +352,10 @@ export default function Home() {
             </div>
             <h1 className="splash-title">Hello Khushi!</h1>
             <p className="splash-funny-text">
-              Wait... if you are NOT the legendary **Khushi** from Rojgari Placements, please close this tab immediately. 
-              This proposal contains high-voltage growth hacks, extreme search ranking metrics, and direct competitor-destroying strategies by Mutant Technologies. 
+              <strong>Confidential Warning:</strong> If you are not <strong>Khushi</strong> from Rojgari Placements, we politely request you close this tab. 
+              The following proposal contains proprietary growth frameworks, top-tier search domination plans, and digital strategies so effective they might keep your competitors awake at night.
               <br /><br />
-              If you <i>are</i> Khushi... prepare to have your mind blown.
+              If you <i>are</i> Khushi... proceed at your own discretion.
             </p>
             <button className="btn btn-primary" onClick={() => setIsSplash(false)}>
               Click here to view your proposal <i className="fa-solid fa-rocket animate-bounce"></i>
