@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="100%" height="100%">
+  <defs>
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FC6203" />
+      <stop offset="60%" stop-color="#FF7A00" />
+      <stop offset="100%" stop-color="#FFB03A" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Right stem (T stem) -->
+  <path 
+    d="M 70 30 L 70 85" 
+    stroke="url(#logo-grad)" 
+    stroke-width="13" 
+    stroke-linecap="round" 
+    fill="none" 
+  />
+
+  <!-- Left stem (M left) -->
+  <path 
+    d="M 25 32 L 25 64" 
+    stroke="url(#logo-grad)" 
+    stroke-width="13" 
+    stroke-linecap="round" 
+    fill="none" 
+  />
+
+  <!-- Dot below left stem -->
+  <circle 
+    cx="25" 
+    cy="82" 
+    r="6.5" 
+    fill="url(#logo-grad)" 
+  />
+
+  <!-- V-join in middle of M -->
+  <path 
+    d="M 25 32 L 48 55 L 70 32" 
+    stroke="url(#logo-grad)" 
+    stroke-width="13" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+    fill="none" 
+  />
+
+  <!-- T horizontal bar -->
+  <path 
+    d="M 48 30 L 92 30" 
+    stroke="url(#logo-grad)" 
+    stroke-width="13" 
+    stroke-linecap="round" 
+    fill="none" 
+  />
+</svg>
