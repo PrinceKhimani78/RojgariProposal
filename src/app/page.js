@@ -108,33 +108,38 @@ export default function Home() {
   // Challenge slider comparison
   const [challengeSlide, setChallengeSlide] = useState("generic");
 
-  // Simplified Slide Map Modules
+  // Simplified Slide Map Modules (Aligned with the updated core services)
   const [activeSlideNum, setActiveSlideNum] = useState(1);
   const SLIDE_OUTLINE = [
     { num: 1, title: "Executive Foundations", desc: "Covers the Cover Page, Table of Contents, and Executive Summary to welcome investors and set the brand's premium tone." },
     { num: 2, title: "Corporate Mission & Challenge", desc: "Outlines Who We Are, our corporate values, and details the specific business barriers facing global firms in the UAE." },
-    { num: 3, title: "The Advisory Solutions", desc: "Details how Ultron handles complex business setup, banking relationships, corporate taxation, and regulatory AML compliance." },
-    { num: 4, title: "Operations & Market Advantage", desc: "Explains our seamless onboarding process flow, strategic Dubai/UAE benefits, and highlights our core competitive edge ('We handle what others won't')." },
+    { num: 3, title: "Structuring & Banking Advisory", desc: "Details how Ultron handles complex Business Structuring, corporate registrations, and premium Business Banking alignments." },
+    { num: 4, title: "Finance & Real Estate Mortgages", desc: "Outlines Ultron's specialized advisory services for Business Finance leverage and residential/commercial Real Estate Mortgages." },
     { num: 5, title: "Contact & Onboarding Call to Action", desc: "A clean, functional contact section highlighting communication pathways, locations, and direct next steps." }
   ];
 
-  // Copywriting Transformer
+  // Copywriting Transformer (Aligned with actual 4 services: Structuring, Banking, Finance, Mortgages)
   const [copyVariant, setCopyVariant] = useState(0);
   const COPY_TRANSFORMATIONS = [
     {
       before: "We help you set up companies in Dubai and get local licenses.",
-      after: "Structuring High-Yield Corporate Vehicles in the UAE's Premier Economic Zones.",
-      badge: "Business Setup"
+      after: "Architecting Elite Corporate Vehicles and Structures for Global Businesses in the UAE.",
+      badge: "Business Structuring"
     },
     {
       before: "We help people open bank accounts even if they have difficult cases.",
       after: "Unlocking Premium UAE Corporate Banking Facilities for Complex Global Profiles.",
-      badge: "Banking Advisory"
+      badge: "Business Banking"
     },
     {
-      before: "We do compliance work and help with local tax rules.",
-      after: "Fortifying Corporate Assets via Rigorous AML Architecture and Tax Optimization.",
-      badge: "Compliance"
+      before: "We help you borrow money or get business loans from lenders.",
+      after: "Unlocking Strategic Capital and Leverage to Fuel High-Performance Corporate Growth.",
+      badge: "Business Finance"
+    },
+    {
+      before: "We help residents and non-residents get mortgages for houses in Dubai.",
+      after: "Securing Premium Real Estate Financing Solutions Tailored for Global Property Buyers.",
+      badge: "Real Estate Mortgages"
     }
   ];
 
@@ -351,7 +356,7 @@ export default function Home() {
                   <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
                     <div className="goal-icon" style={{ color: "#C9A84C" }}>✍️</div>
                     <h4>Copy Hook Tuning</h4>
-                    <p>Transforming complex UAE advisory, corporate taxation, and banking rules into readable hooks.</p>
+                    <p>Transforming complex UAE structuring, corporate lending, and banking rules into readable hooks.</p>
                   </div>
                   <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
                     <div className="goal-icon" style={{ color: "#C9A84C" }}>📊</div>
@@ -538,11 +543,11 @@ export default function Home() {
                 <span className="section-tag" style={{ color: "#C9A84C" }}>Persuasive Copy</span>
                 <h2 className="section-title">Strategic Translation Engine</h2>
                 <p className="section-desc">
-                  We refine standard, flat explanations into high-converting copywriting tailored for family offices, investors, and startup founders. Click below to preview:
+                  We refine standard, flat explanations into high-converting copywriting database tailored for family offices, corporate boards, and property buyers. Click below to preview:
                 </p>
 
                 <div className="feed-layout">
-                  <div className="feed-categories">
+                  <div className="feed-categories" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
                     {COPY_TRANSFORMATIONS.map((variant, index) => (
                       <button 
                         key={variant.badge}
@@ -551,7 +556,9 @@ export default function Home() {
                         style={{
                           borderColor: copyVariant === index ? "#C9A84C" : "rgba(255,255,255,0.05)",
                           background: copyVariant === index ? "rgba(201, 168, 76, 0.1)" : "transparent",
-                          color: copyVariant === index ? "#C9A84C" : "#9CA3AF"
+                          color: copyVariant === index ? "#C9A84C" : "#9CA3AF",
+                          fontSize: "0.8rem",
+                          padding: "8px"
                         }}
                       >
                         🎯 {variant.badge}
@@ -630,14 +637,14 @@ export default function Home() {
                     <div className="price-tier-card" style={{ width: "100%", maxWidth: "480px", border: "1.5px solid #C9A84C", background: "rgba(13, 20, 38, 0.85)" }}>
                       <div className="hot-badge" style={{ background: "#C9A84C", color: "#0A0F1E", fontWeight: "700" }}>PROJECT RATES</div>
                       <h3 style={{ marginTop: "10px", color: "#FFF" }}>Company Profile Package</h3>
-                      <div className="tier-cost" style={{ color: "#C9A84C" }}>₹12,000<span style={{ fontSize: "1rem", color: "#9CA3AF" }}> / Flat Fee</span></div>
+                      <div className="tier-cost" style={{ color: "#C9A84C" }}>₹14,000<span style={{ fontSize: "1rem", color: "#9CA3AF" }}> / Flat Fee</span></div>
                       
                       <ul className="tier-features" style={{ margin: "20px 0", color: "#9CA3AF" }}>
                         <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Up to 14 Premium Visual Slides</li>
                         <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Complete Content Strategy & Copywriting</li>
                         <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Professional Vector PDF Formats</li>
-                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> **50% Advance Payment (₹6,000) to Initiate**</li>
-                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Remaining 50% (₹6,000) upon final sign-off</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> **50% Advance Payment (₹7,000) to Initiate**</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Remaining 50% (₹7,000) upon final sign-off</li>
                         <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> 3 Rounds of Project Revisions</li>
                       </ul>
                     </div>
