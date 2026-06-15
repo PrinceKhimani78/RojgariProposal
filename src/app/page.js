@@ -108,37 +108,37 @@ export default function Home() {
   // Challenge slider comparison
   const [challengeSlide, setChallengeSlide] = useState("generic");
 
-  // Simplified Slide Map Modules (Aligned with the updated core services)
+  // Simplified Slide Map Modules
   const [activeSlideNum, setActiveSlideNum] = useState(1);
   const SLIDE_OUTLINE = [
     { num: 1, title: "Executive Foundations", desc: "Covers the Cover Page, Table of Contents, and Executive Summary to welcome investors and set the brand's premium tone." },
-    { num: 2, title: "Corporate Mission & Challenge", desc: "Outlines Who We Are, our corporate values, and details the specific business barriers facing global firms in the UAE." },
-    { num: 3, title: "Structuring & Banking Advisory", desc: "Details how Ultron handles complex Business Structuring, corporate registrations, and premium Business Banking alignments." },
-    { num: 4, title: "Finance & Real Estate Mortgages", desc: "Outlines Ultron's specialized advisory services for Business Finance leverage and residential/commercial Real Estate Mortgages." },
-    { num: 5, title: "Contact & Onboarding Call to Action", desc: "A clean, functional contact section highlighting communication pathways, locations, and direct next steps." }
+    { num: 2, title: "About Us & Focus Areas", desc: "Outlines Who We Are, our Focus Areas (bank rejections, stalled approvals, compliance escalations), and how we work." },
+    { num: 3, title: "Banking & Structuring Advisory", desc: "Detailed breakdown of Business Banking Advisory (complex opening, activity-risk alignment) and Strategic Business Setup (Mainland, Freezone, DIFC, ADGM)." },
+    { num: 4, title: "Finance, Mortgages & Taxation", desc: "Outlines SME Financing, Resident/Non-Resident Mortgage Structuring, and Tax & Regulatory Positioning Advisory (Substance, Corporate Tax)." },
+    { num: 5, title: "Our Advisory Philosophy & CTA", desc: "Details our core philosophy (feasibility over optimism, absolute discretion) alongside contact pathways and next steps." }
   ];
 
-  // Copywriting Transformer (Aligned with actual 4 services: Structuring, Banking, Finance, Mortgages)
+  // Copywriting Transformer (Aligned exactly with the Canberra/Dubai Canva PDF core details)
   const [copyVariant, setCopyVariant] = useState(0);
   const COPY_TRANSFORMATIONS = [
     {
       before: "We help you set up companies in Dubai and get local licenses.",
-      after: "Architecting Elite Corporate Vehicles and Structures for Global Businesses in the UAE.",
+      after: "Strategic Business Setup & Licensing Strategy Aligned Natively with UAE Banking Feasibility.",
       badge: "Business Structuring"
     },
     {
       before: "We help people open bank accounts even if they have difficult cases.",
-      after: "Unlocking Premium UAE Corporate Banking Facilities for Complex Global Profiles.",
+      after: "Unlocking Premium UAE Corporate Banking Facilities and Re-Application Resolution.",
       badge: "Business Banking"
     },
     {
       before: "We help you borrow money or get business loans from lenders.",
-      after: "Unlocking Strategic Capital and Leverage to Fuel High-Performance Corporate Growth.",
+      after: "SME Financing & Business Loans: Working Capital and Stalled Case Restructuring.",
       badge: "Business Finance"
     },
     {
       before: "We help residents and non-residents get mortgages for houses in Dubai.",
-      after: "Securing Premium Real Estate Financing Solutions Tailored for Global Property Buyers.",
+      after: "Resident & Non-Resident Mortgage Structuring and Post-Valuation Issue Resolution.",
       badge: "Real Estate Mortgages"
     }
   ];
