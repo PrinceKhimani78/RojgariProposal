@@ -1843,17 +1843,23 @@ body {
     }
 }
 
-/* RESPONSIVE BREAKPOINTS */
 @media (max-width: 900px) {
+    .proposal-container {
+        padding: 85px 12px 24px 12px;
+    }
     .proposal-card {
-        padding: 24px;
+        padding: 24px 16px;
         min-height: auto;
     }
     .section-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+    .section-desc {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
     }
     .deliverables-layout, .feed-layout, .organic-dashboard, .seo-interactive-workspace, .keywords-interactive-display, .pixel-interactive-demo, .price-cards-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 20px;
     }
     .price-cards-row {
@@ -1866,21 +1872,65 @@ body {
     .sidebar-nav {
         display: none; /* Hide dots on mobile */
     }
-    .combo-deliverables-bullets {
-        grid-template-columns: 1fr;
+    .combo-deliverables-bullets, .deliv-checklist, .goals-grid {
+        grid-template-columns: 1fr !important;
     }
     .cover-footer {
         flex-direction: column;
         gap: 15px;
+        text-align: center;
+        align-items: center;
     }
     .meta-separator {
         width: 80%;
         height: 1px;
     }
     .main-title {
-        font-size: 2.8rem;
+        font-size: 2.1rem !important;
+        line-height: 1.2;
+    }
+    .subtitle {
+        font-size: 0.95rem !important;
+    }
+    .proposal-nav {
+        padding: 0 16px;
+        height: 60px;
+    }
+    .nav-client {
+        display: none; /* Hide client badge to make space on small headers */
+    }
+    .kd-glass-card {
+        padding: 16px;
+    }
+    .kd-header h3 {
+        font-size: 1.2rem;
+    }
+    .sign-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .sign-input-wrapper input {
+        width: 100%;
+    }
+    .sign-input-wrapper button {
+        width: 100%;
+        justify-content: center;
+    }
+    .opportunity-selector {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .opp-toggle {
+        width: 100%;
+        text-align: left;
+    }
+    .strategy-cards {
+        grid-template-columns: 1fr !important;
     }
 }
+
 
 /* STATEMENT OF WORK (SOW) STYLES */
 .sow-page-container {
