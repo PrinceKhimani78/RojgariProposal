@@ -4,23 +4,22 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [isSplash, setIsSplash] = useState(true);
-  const [currentCard, setCurrentCard] = useState(0); // 0 to 9 index
+  const [currentCard, setCurrentCard] = useState(0); // 0 to 8 index
 
-  // Cards definitions
+  // Proposal sections
   const CARDS = [
     "cover",
-    "opportunity",
-    "strategy",
+    "challenge",
+    "objective",
+    "slides-outline",
+    "process",
+    "aesthetics",
+    "copywriting",
     "deliverables",
-    "content",
-    "organic",
-    "seo",
-    "keywords",
-    "pixel",
     "investment"
   ];
 
-  // Particle Canvas background logic
+  // Particle Canvas background logic (Golden dust effect)
   const canvasRef = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,10 +39,10 @@ export default function Home() {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
-        this.radius = Math.random() * 2 + 0.5;
-        this.color = Math.random() > 0.5 ? "rgba(252, 98, 3, 0.15)" : "rgba(255, 255, 255, 0.15)";
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = Math.random() * 1.8 + 0.5;
+        this.color = Math.random() > 0.4 ? "rgba(201, 168, 76, 0.2)" : "rgba(255, 255, 255, 0.15)";
       }
       update() {
         this.x += this.vx;
@@ -61,7 +60,7 @@ export default function Home() {
 
     const initParticles = () => {
       particles = [];
-      const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 15000));
+      const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 12000));
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -106,227 +105,47 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentCard, isSplash]);
 
-  // Card 2: Opportunity toggle & auto-type simulation
-  const [oppType, setOppType] = useState("employers");
-  const [typingText, setTypingText] = useState("");
-  useEffect(() => {
-    if (isSplash) return;
-    const targetText = oppType === "employers" 
-      ? "best placement agency for hiring staff in India..." 
-      : "verified career consulting partners in Ahmedabad...";
-    
-    let index = 0;
-    setTypingText("");
-    
-    const interval = setInterval(() => {
-      if (index < targetText.length) {
-        setTypingText((prev) => prev + targetText.charAt(index));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 40);
+  // Challenge slider comparison
+  const [challengeSlide, setChallengeSlide] = useState("generic");
 
-    return () => clearInterval(interval);
-  }, [oppType, isSplash]);
+  // Simplified Slide Map Modules
+  const [activeSlideNum, setActiveSlideNum] = useState(1);
+  const SLIDE_OUTLINE = [
+    { num: 1, title: "Executive Foundations", desc: "Covers the Cover Page, Table of Contents, and Executive Summary to welcome investors and set the brand's premium tone." },
+    { num: 2, title: "Corporate Mission & Challenge", desc: "Outlines Who We Are, our corporate values, and details the specific business barriers facing global firms in the UAE." },
+    { num: 3, title: "The Advisory Solutions", desc: "Details how Ultron handles complex business setup, banking relationships, corporate taxation, and regulatory AML compliance." },
+    { num: 4, title: "Operations & Market Advantage", desc: "Explains our seamless onboarding process flow, strategic Dubai/UAE benefits, and highlights our core competitive edge ('We handle what others won't')." },
+    { num: 5, title: "Contact & Onboarding Call to Action", desc: "A clean, functional contact section highlighting communication pathways, locations, and direct next steps." }
+  ];
 
-  // Card 5: Content Category Feed Simulator
-  const [contentCategory, setContentCategory] = useState("employer-tips");
-  const [isLiked, setIsLiked] = useState(false);
-  const [likes, setLikes] = useState(1240);
-
-  const getPostContent = () => {
-    switch (contentCategory) {
-      case "employer-tips":
-        return {
-          title: "Struggling to hire the right Talent?",
-          body: "Average cost of a bad hire is 30% of their first-year earnings. Let us take care of the vetting process.",
-          cta: "Tap to Hire Now",
-          caption: "We make recruitment seamless. Leave the heavy lifting to us.",
-          gradient: "linear-gradient(135deg, #FC6203, #e85b02)",
-          likesCount: 1240
-        };
-      case "success-stories":
-        return {
-          title: "From Resume to Hired in 7 Days!",
-          body: "How we placed 45 premium engineers for Fintech giants in Mumbai last quarter. Scaled matching tech.",
-          cta: "Read Success Story",
-          caption: "Connecting dream teams with top scaleups. That's Rojgari Placements.",
-          gradient: "linear-gradient(135deg, #10b981, #3b82f6)",
-          likesCount: 3820
-        };
-      case "hiring-insights":
-        return {
-          title: "What 90% of HRs Look For",
-          body: "Insights: Soft skills and growth-mindsets beat static resumes in 2026. Spot candidates that last.",
-          cta: "Download Report",
-          caption: "Smarter metrics for modern placement strategies.",
-          gradient: "linear-gradient(135deg, #f59e0b, #e11d48)",
-          likesCount: 1980
-        };
-      case "job-updates":
-        return {
-          title: "We are Hiring: 15+ Senior Roles",
-          body: "Top consulting firm looking for Operations Managers. CTC: ₹18 - 25 LPA. Fast-track screening.",
-          cta: "Apply Instantly",
-          caption: "Ready for your next leap? Contact Rojgari Placements.",
-          gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-          likesCount: 4500
-        };
-      default:
-        return {};
-    }
-  };
-  const activePost = getPostContent();
-
-  const handleLike = () => {
-    if (isLiked) {
-      setIsLiked(false);
-      setLikes((prev) => prev - 1);
-    } else {
-      setIsLiked(true);
-      setLikes((prev) => prev + 1);
-    }
-  };
-
-  useEffect(() => {
-    setLikes(activePost.likesCount);
-    setIsLiked(false);
-  }, [contentCategory]);
-
-  // Card 6: Organic Growth Simulator bars height
-  const [barsTriggered, setBarsTriggered] = useState(false);
-  useEffect(() => {
-    if (currentCard === 5) {
-      setBarsTriggered(true);
-    } else {
-      setBarsTriggered(false);
-    }
-  }, [currentCard]);
-
-  // Card 7: SEO search engine input typing simulator
-  const [seoSearchVal, setSeoSearchVal] = useState("");
-  useEffect(() => {
-    if (currentCard === 6) {
-      let phrase = "best placement agency near me";
-      let idx = 0;
-      setSeoSearchVal("");
-      const timer = setInterval(() => {
-        if (idx < phrase.length) {
-          setSeoSearchVal((prev) => prev + phrase.charAt(idx));
-          idx++;
-        } else {
-          clearInterval(timer);
-        }
-      }, 50);
-      return () => clearInterval(timer);
-    }
-  }, [currentCard]);
-
-  // Card 8: Keyword Campaign detailed selectors
-  const KEYWORD_DATA = [
+  // Copywriting Transformer
+  const [copyVariant, setCopyVariant] = useState(0);
+  const COPY_TRANSFORMATIONS = [
     {
-      title: "Placement Agency",
-      vol: "12,500",
-      diff: "Medium",
-      value: "High",
-      exp: "Ranking for this keyword ensures that corporate clients looking to outsource hiring see Rojgari Placements before finding competitors. Leads from this channel have a highly qualified conversion rate."
+      before: "We help you set up companies in Dubai and get local licenses.",
+      after: "Structuring High-Yield Corporate Vehicles in the UAE's Premier Economic Zones.",
+      badge: "Business Setup"
     },
     {
-      title: "Recruitment Agency",
-      vol: "8,900",
-      diff: "Medium",
-      value: "High",
-      exp: "Employers search for this specifically when seeking agency partners for long-term contract staffing. Ranking on page 1 here ensures organic inbound requests from corporate companies."
+      before: "We help people open bank accounts even if they have difficult cases.",
+      after: "Unlocking Premium UAE Corporate Banking Facilities for Complex Global Profiles.",
+      badge: "Banking Advisory"
     },
     {
-      title: "Job Consultancy",
-      vol: "15,000",
-      diff: "High",
-      value: "Extreme",
-      exp: "One of the highest-volume search terms. Drives huge branding authority and is excellent for job seekers as well as mid-sized companies seeking instant placement consultants."
-    },
-    {
-      title: "Staffing Services",
-      vol: "4,200",
-      diff: "Low",
-      value: "Very High",
-      exp: "Low-hanging fruit keyword. High business value because employers searching for staffing services are actively looking to sign contracts immediately. Excellent ROI potential."
-    },
-    {
-      title: "HR Consultancy",
-      vol: "6,800",
-      diff: "Medium",
-      value: "High",
-      exp: "Positions Rojgari Placements as a professional advisory consultant for organizational audits and corporate structuring, expanding beyond simple placements."
-    },
-    {
-      title: "Recruitment Partner",
-      vol: "3,100",
-      diff: "Low",
-      value: "Extreme",
-      exp: "Highly targeted. This represents companies seeking strategic, long-term talent acquisition consultants rather than transaction recruiters."
+      before: "We do compliance work and help with local tax rules.",
+      after: "Fortifying Corporate Assets via Rigorous AML Architecture and Tax Optimization.",
+      badge: "Compliance"
     }
   ];
-  const [selectedKw, setSelectedKw] = useState(0);
 
-  // Card 9: Mutant Pixel Tracker Sandbox
-  const sandboxRef = useRef(null);
-  const [pixelLogs, setPixelLogs] = useState([
-    "[SYSTEM] Pixel loaded successfully.",
-    "[SYSTEM] Awaiting user activity inside Sandbox..."
-  ]);
-  const [interactionCount, setInteractionCount] = useState(0);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0, visible: false });
-
-  const handleSandboxMouseMove = (e) => {
-    const sandbox = sandboxRef.current;
-    if (!sandbox) return;
-    const rect = sandbox.getBoundingClientRect();
-    const x = Math.round(e.clientX - rect.left);
-    const y = Math.round(e.clientY - rect.top);
-
-    setCursorPos({ x, y, visible: true });
-
-    if (Math.random() < 0.04) {
-      setInteractionCount((prev) => prev + 1);
-      const newLog = `[TRACKED] Cursor coordinates: X: ${x}px, Y: ${y}px`;
-      setPixelLogs((prev) => [newLog, ...prev.slice(0, 10)]);
-    }
-  };
-
-  const handleSandboxClick = (e) => {
-    const sandbox = sandboxRef.current;
-    if (!sandbox) return;
-    const rect = sandbox.getBoundingClientRect();
-    const x = Math.round(e.clientX - rect.left);
-    const y = Math.round(e.clientY - rect.top);
-
-    setInteractionCount((prev) => prev + 5);
-    const newLog = `[CLICK DETECTED] Element click at X: ${x}px, Y: ${y}px - Triggered Conversions`;
-    setPixelLogs((prev) => [newLog, ...prev.slice(0, 10)]);
-  };
-
-  const handleSandboxLeave = () => {
-    setCursorPos((prev) => ({ ...prev, visible: false }));
-    setPixelLogs((prev) => [" [OUT] Cursor left workspace.", ...prev.slice(0, 10)]);
-  };
-
-  const getEngagementLevel = () => {
-    if (interactionCount === 0) return "Awaiting Activity";
-    if (interactionCount < 10) return "Low";
-    if (interactionCount < 30) return "Medium";
-    return "Extreme";
-  };
-
-  // Card 10: Client Contract Signing Simulation
+  // Client Signing State
   const [clientName, setClientName] = useState("");
   const [contractSigned, setContractSigned] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
 
   const handleAcceptProposal = () => {
     if (!clientName.trim()) {
-      alert("Please enter your name or agency name first.");
+      alert("Please enter your name first.");
       return;
     }
     setIsSigning(true);
@@ -340,25 +159,36 @@ export default function Home() {
     <>
       <canvas id="particle-canvas" ref={canvasRef}></canvas>
 
-      {/* FUNNY GREETING OVERLAY ADDRESSING KHUSHI */}
+      {/* PERSONALIZED SPLASH SCREEN */}
       {isSplash && (
-        <div className="splash-overlay">
-          <div className="glowing-orb bg-orb-1" style={{ opacity: 0.3 }}></div>
-          <div className="glowing-orb bg-orb-2" style={{ opacity: 0.3 }}></div>
+        <div className="splash-overlay" style={{ background: "#0A0F1E" }}>
+          <div className="glowing-orb bg-orb-1" style={{ background: "var(--primary)", opacity: 0.25 }}></div>
+          <div className="glowing-orb bg-orb-2" style={{ background: "var(--accent)", opacity: 0.25 }}></div>
           <div className="splash-content">
-            <span className="security-tag">🕵️‍♀️ TOP SECRET CLASSIFIED DIGITAL STRATEGY</span>
-            <div className="splash-logo-container" style={{ width: "200px", height: "200px", margin: "0 auto 24px auto", borderRadius: "24px", overflow: "hidden", background: "white", padding: "12px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 25px rgba(252, 98, 3, 0.4)" }}>
-              <img src="/logo.png" alt="Mutant Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+            <span className="security-tag" style={{ border: "1px solid rgba(201, 168, 76, 0.3)", color: "#C9A84C", background: "rgba(201, 168, 76, 0.08)" }}>
+              🔒 CONFIDENTIAL CREATIVE PROPOSAL
+            </span>
+            
+            {/* Ultron styled Logo in Splash */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", marginBottom: "32px", marginTop: "16px" }}>
+              <span style={{ color: "#C9A84C", fontWeight: "900", fontSize: "3rem", tracking: "0.2em", textShadow: "0 0 15px rgba(201,168,76,0.4)" }}>U</span>
+              <div style={{ textAlign: "left" }}>
+                <div style={{ color: "#FFF", fontWeight: "800", fontSize: "1.4rem", letterSpacing: "0.15em", lineHeight: "1" }}>ULTRON</div>
+                <div style={{ color: "#C9A84C", fontWeight: "400", fontSize: "0.9rem", letterSpacing: "0.25em" }}>FINANCIALS</div>
+              </div>
             </div>
-            <h1 className="splash-title">Hello Khushi!</h1>
+
+            <h1 className="splash-title" style={{ background: "linear-gradient(135deg, #FFF, #C9A84C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Welcome, Kuldeep!
+            </h1>
             <p className="splash-funny-text">
-              <strong>Confidential Warning:</strong> If you are not <strong>Khushi</strong> from Rojgari Placements, we politely request you close this tab. 
-              The following proposal contains proprietary growth frameworks, top-tier search domination plans, and digital strategies so effective they might keep your competitors awake at night.
+              <strong>Notice:</strong> This interactive presentation is exclusively prepared for <strong>Kuldeep Chauhan</strong> (Founder & Lead Advisor, Ultron Financials). 
+              Inside, you will find the complete roadmap for creating an elite, investor-grade <strong>Company Profile</strong> that matches the premium visual identity of your website.
               <br /><br />
-              If you <i>are</i> Khushi... proceed at your own discretion.
+              Let's craft the brand narrative that shows global investors why you are the best at what you do.
             </p>
-            <button className="btn btn-primary" onClick={() => setIsSplash(false)}>
-              Click here to view your proposal <i className="fa-solid fa-rocket animate-bounce"></i>
+            <button className="btn btn-primary" onClick={() => setIsSplash(false)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E", fontWeight: "700" }}>
+              Explore Design Proposal <span style={{ marginLeft: "6px" }}>→</span>
             </button>
           </div>
         </div>
@@ -366,23 +196,24 @@ export default function Home() {
 
       {!isSplash && (
         <>
-          <nav className="proposal-nav">
+          <nav className="proposal-nav" style={{ borderBottom: "1px solid rgba(201, 168, 76, 0.15)", background: "rgba(10, 15, 30, 0.85)" }}>
             <div className="nav-brand" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div style={{ width: "36px", height: "36px", background: "white", borderRadius: "8px", padding: "4px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <img src="/logo.png" alt="Mutant Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+              {/* Gold Monogram Logo */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ color: "#C9A84C", fontWeight: "900", fontSize: "1.6rem", letterSpacing: "0.05em" }}>U</span>
+                <span className="tech-text" style={{ fontSize: "0.9rem", fontWeight: "800", letterSpacing: "1px", color: "#FFF" }}>
+                  ULTRON <span style={{ color: "#C9A84C", fontWeight: "400" }}>FINANCIALS</span>
+                </span>
               </div>
-              <span className="tech-text" style={{ fontSize: "1.3rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                MUTANT <span style={{ fontWeight: "300" }}>TECHNOLOGIES</span>
-              </span>
             </div>
             <div className="nav-client">
-              <span className="badge">Proposal For</span>
-              <span className="client-name">Rojgari Placements</span>
+              <span className="badge" style={{ color: "#C9A84C", background: "rgba(201, 168, 76, 0.08)", border: "1px solid rgba(201, 168, 76, 0.25)" }}>Proposal For</span>
+              <span className="client-name">Kuldeep Chauhan</span>
             </div>
             <div className="progress-bar-container">
               <div 
                 className="progress-bar" 
-                style={{ width: `${((currentCard + 1) / CARDS.length) * 100}%` }}
+                style={{ width: `${((currentCard + 1) / CARDS.length) * 100}%`, background: "linear-gradient(90deg, #B8892A, #C9A84C)" }}
               ></div>
             </div>
           </nav>
@@ -395,240 +226,194 @@ export default function Home() {
                 className={`nav-dot ${currentCard === index ? "active" : ""}`}
                 onClick={() => navigateTo(index)}
                 title={name.toUpperCase()}
+                style={{
+                  background: currentCard === index ? "#C9A84C" : "rgba(255, 255, 255, 0.2)",
+                  boxShadow: currentCard === index ? "0 0 10px #C9A84C" : "none"
+                }}
               ></button>
             ))}
           </div>
 
           <main className="proposal-container">
+            
             {/* CARD 1: COVER */}
             <section className={`proposal-card ${currentCard === 0 ? "active" : ""}`}>
               <div className="card-content cover-layout">
-                <div className="glowing-orb bg-orb-1"></div>
-                <div className="glowing-orb bg-orb-2"></div>
+                <div className="glowing-orb bg-orb-1" style={{ background: "#C9A84C" }}></div>
+                <div className="glowing-orb bg-orb-2" style={{ background: "#B8892A" }}></div>
                 
                 <div className="cover-header">
-                  <span className="pre-title animate-up">Exclusive Digital Growth Initiative</span>
-                  <h1 className="main-title animate-up delay-1">Digital Growth Proposal</h1>
+                  <span className="pre-title animate-up" style={{ color: "#C9A84C", letterSpacing: "4px" }}>DESIGN PROPOSAL & OUTLINE</span>
+                  <h1 className="main-title animate-up delay-1" style={{ fontSize: "3.2rem" }}>Company Profile Creation</h1>
                   <p className="subtitle animate-up delay-2">
-                    Grow Your Brand, Generate More Leads & Dominate Google Search
+                    Creating a High-Impact, Luxury-Grade Institutional Presentation for Ultron Financials
                   </p>
                 </div>
 
                 <div className="cover-footer animate-up delay-3">
                   <div className="meta-box client-box">
                     <span className="meta-label">PREPARED FOR</span>
-                    <h3 className="meta-value">Khushi | Rojgari Placements</h3>
+                    <h3 className="meta-value">Kuldeep Chauhan</h3>
+                    <p style={{ fontSize: "0.85rem", color: "#9CA3AF" }}>Founder & Lead Advisor | Ultron Financials</p>
                   </div>
-                  <div className="meta-separator"></div>
+                  <div className="meta-separator" style={{ background: "rgba(201, 168, 76, 0.2)" }}></div>
                   <div className="meta-box creator-box">
-                    <span className="meta-label">PRESENTED BY</span>
-                    <h3 className="meta-value mutant-glow">Mutant Technologies</h3>
+                    <span className="meta-label">CREATED BY</span>
+                    <h3 className="meta-value" style={{ color: "#FFF" }}>Mutant Technologies</h3>
+                    <p style={{ fontSize: "0.85rem", color: "#C9A84C" }}>Creative Studio & Growth Partners</p>
                   </div>
                 </div>
 
                 <div className="cta-container animate-up delay-4">
-                  <button className="btn btn-primary start-btn" onClick={() => navigateTo(1)}>
-                    <span>Begin Journey</span>
-                    <i className="fa-solid fa-arrow-right"></i>
+                  <button className="btn btn-primary start-btn" onClick={() => navigateTo(1)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    <span>Explore Proposal</span> <span style={{ marginLeft: "6px" }}>→</span>
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 2: THE OPPORTUNITY */}
+            {/* CARD 2: THE CHALLENGE */}
             <section className={`proposal-card ${currentCard === 1 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">The Opportunity</span>
-                <h2 className="section-title">Your Next Client Is Already Online</h2>
-                
+                <span className="section-tag" style={{ color: "#C9A84C" }}>The Opportunity</span>
+                <h2 className="section-title">Elevating First Impressions</h2>
+                <p className="section-desc">
+                  For high-net-worth clients, international corporations, and bank officials looking to set up in Dubai, trust and authority are established in seconds. A standard presentation costs you credibility.
+                </p>
+
                 <div className="opportunity-selector">
                   <button 
-                    className={`opp-toggle ${oppType === "employers" ? "active" : ""}`} 
-                    onClick={() => setOppType("employers")}
+                    className={`opp-toggle ${challengeSlide === "generic" ? "active" : ""}`} 
+                    onClick={() => setChallengeSlide("generic")}
+                    style={{ borderColor: challengeSlide === "generic" ? "#C9A84C" : "rgba(255,255,255,0.1)" }}
                   >
-                    <i className="fa-solid fa-briefcase"></i> For Employers
+                    ⚠️ Standard Financial Presentation
                   </button>
                   <button 
-                    className={`opp-toggle ${oppType === "seekers" ? "active" : ""}`} 
-                    onClick={() => setOppType("seekers")}
+                    className={`opp-toggle ${challengeSlide === "mutant" ? "active" : ""}`} 
+                    onClick={() => setChallengeSlide("mutant")}
+                    style={{ borderColor: challengeSlide === "mutant" ? "#C9A84C" : "rgba(255,255,255,0.1)" }}
                   >
-                    <i className="fa-solid fa-user-graduate"></i> For Job Seekers
+                    ✨ Ultron Luxury Corporate Profile
                   </button>
                 </div>
 
                 <div className="opportunity-panel">
-                  <div className="interactive-search-mockup">
-                    <div className="search-bar">
-                      <i className="fa-solid fa-magnifying-glass text-muted"></i>
-                      <span className="typing-text">{typingText}</span>
+                  {challengeSlide === "generic" ? (
+                    <div className="interactive-search-mockup" style={{ borderColor: "#ef4444" }}>
+                      <h4 style={{ color: "#ef4444", marginBottom: "8px" }}>✖ Standard Templates</h4>
+                      <p className="text-secondary" style={{ fontSize: "0.9rem", lineHeight: "1.6" }}>
+                        - Default, boring typography that looks rushed and unprofessional.<br />
+                        - Text-heavy slides that overwhelm international clients and partners.<br />
+                        - Fails to match the high-end dark luxury theme of your main website.<br />
+                        - Standard stock layouts that do not project institutional authority.
+                      </p>
                     </div>
-                    <div className="search-results-preview">
-                      <div className="result-card blurred">
-                        <div className="shimmer-line title-line"></div>
-                        <div className="shimmer-line desc-line"></div>
-                      </div>
-                      <div className="alert-overlay">
-                        <i className="fa-solid fa-circle-question question-pulse"></i>
-                        <h3>Are they finding Rojgari Placements or your competitors?</h3>
-                      </div>
+                  ) : (
+                    <div className="interactive-search-mockup" style={{ borderColor: "#C9A84C" }}>
+                      <h4 style={{ color: "#C9A84C", marginBottom: "8px" }}>✓ Mutant Crafted Authority Asset</h4>
+                      <p className="text-secondary" style={{ fontSize: "0.9rem", lineHeight: "1.6" }}>
+                        - **Bespoke Slide Master**: Colors aligned directly with your website theme (Navy/Gold).<br />
+                        - **High-Performance Copywriting**: Refining complex services into crisp value taglines.<br />
+                        - **Clear Layout Hierarchy**: Maximizing white space and margins for premium scannability.<br />
+                        - **Custom Vector Infographics**: Representing setup workflows and advisory structures clearly.
+                      </p>
                     </div>
-                  </div>
-                </div>
-
-                <div className="goals-grid">
-                  <div className="goal-item">
-                    <div className="goal-icon"><i className="fa-solid fa-eye"></i></div>
-                    <h4>Increase Visibility</h4>
-                    <p>Be seen by high-intent clients and active seekers.</p>
-                  </div>
-                  <div className="goal-item">
-                    <div className="goal-icon"><i className="fa-solid fa-shield-halved"></i></div>
-                    <h4>Build Trust</h4>
-                    <p>Establish a commanding brand reputation in HR & recruitment.</p>
-                  </div>
-                  <div className="goal-item">
-                    <div className="goal-icon"><i className="fa-solid fa-bullseye"></i></div>
-                    <h4>Generate Leads</h4>
-                    <p>Get qualified inquiries instead of random calls.</p>
-                  </div>
-                  <div className="goal-item">
-                    <div className="goal-icon"><i className="fa-solid fa-chart-line"></i></div>
-                    <h4>Grow Organically</h4>
-                    <p>Build lasting digital assets that drive free traffic.</p>
-                  </div>
+                  )}
                 </div>
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(0)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(2)}>
-                    Next Strategy <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(2)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Project Objective →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 3: SOCIAL MEDIA STRATEGY */}
+            {/* CARD 3: OBJECTIVE */}
             <section className={`proposal-card ${currentCard === 2 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Brand Strategy</span>
-                <h2 className="section-title">Build A Brand People Trust</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>Scope Objectives</span>
+                <h2 className="section-title">An Elite 14-Slide Portfolio</h2>
                 <p className="section-desc">
-                  Most placement agencies only post job openings. We help you build a reputable authority.
+                  We will design and write a complete, investor-ready Company Profile comprising up to 14 high-impact slides, structured to pitch Ultron's core strengths.
                 </p>
 
-                <div className="strategy-cards">
-                  <div className="strat-card">
-                    <div className="strat-num">01</div>
-                    <div className="strat-icon"><i className="fa-solid fa-award"></i></div>
-                    <h3>Industry Expert</h3>
-                    <p>Educate employers on hiring best practices, trends, and retention strategies.</p>
+                <div className="goals-grid">
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>🎨</div>
+                    <h4>Luxury Design Master</h4>
+                    <p>Custom backgrounds, geometric guidelines, and elegant gold borders fitting the brand.</p>
                   </div>
-                  <div className="strat-card">
-                    <div className="strat-num">02</div>
-                    <div className="strat-icon"><i className="fa-solid fa-handshake"></i></div>
-                    <h3>Trusted HR Partner</h3>
-                    <p>Highlight process clarity, screening methods, and client success stories.</p>
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>✍️</div>
+                    <h4>Copy Hook Tuning</h4>
+                    <p>Transforming complex UAE advisory, corporate taxation, and banking rules into readable hooks.</p>
                   </div>
-                  <div className="strat-card">
-                    <div className="strat-num">03</div>
-                    <div className="strat-icon"><i className="fa-solid fa-compass"></i></div>
-                    <h3>Career Guide</h3>
-                    <p>Give job seekers interview preparation tips, resume advice, and market updates.</p>
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>📊</div>
+                    <h4>Strategic Visuals</h4>
+                    <p>Clean timelines, process flowcharts, and comparative tables replacing plain bulleted lists.</p>
                   </div>
-                  <div className="strat-card">
-                    <div className="strat-num">04</div>
-                    <div className="strat-icon"><i className="fa-solid fa-star"></i></div>
-                    <h3>Preferred Consultant</h3>
-                    <p>Position Rojgari Placements as the first choice through strong social proof.</p>
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>📂</div>
+                    <h4>Interactive PDF Format</h4>
+                    <p>Delivered as a premium high-definition PDF designed for clear reading and digital shares.</p>
                   </div>
-                </div>
-
-                <div className="brand-impact-statement">
-                  <i className="fa-solid fa-quote-left"></i>
-                  A stronger brand creates more inbound employer inquiries and yields a 3x higher lead conversion rate.
                 </div>
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(1)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(3)}>
-                    See Deliverables <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(3)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    View Structure →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 4: SOCIAL MEDIA DELIVERABLES */}
+            {/* CARD 4: THE 14-SLIDE OUTLINE */}
             <section className={`proposal-card ${currentCard === 3 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Execution Plan</span>
-                <h2 className="section-title">Everything Included. Every Month.</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>The Structure</span>
+                <h2 className="section-title">Visual Storytelling Modules</h2>
                 <p className="section-desc">
-                  A complete hands-off social media machine managed by our creative marketing experts.
+                  To ensure maximum flexibility before assets are finalized, we organize the company profile into high-level strategic modules rather than rigid layouts.
                 </p>
 
-                <div className="deliverables-layout">
-                  <div className="deliv-main-grid">
-                    <div className="deliv-metric-card">
-                      <span className="metric-num">12</span>
-                      <span className="metric-label">Professional Posts / Mo</span>
-                      <div className="metric-progress-track">
-                        <div className="metric-progress-bar" style={{ width: "100%" }}></div>
+                <div className="keywords-interactive-display">
+                  <div className="keywords-list-side" style={{ maxHeight: "280px", overflowY: "auto", paddingRight: "10px" }}>
+                    {SLIDE_OUTLINE.map((slide) => (
+                      <div
+                        key={slide.num}
+                        className={`keyword-selector ${activeSlideNum === slide.num ? "active" : ""}`}
+                        onClick={() => setActiveSlideNum(slide.num)}
+                        style={{ 
+                          padding: "10px 16px",
+                          borderColor: activeSlideNum === slide.num ? "#C9A84C" : "rgba(255,255,255,0.05)"
+                        }}
+                      >
+                        <span className="kw-text" style={{ fontSize: "0.85rem", color: activeSlideNum === slide.num ? "#FFF" : "#9CA3AF" }}>
+                          Module: {slide.title}
+                        </span>
                       </div>
-                    </div>
-                    <div className="deliv-metric-card">
-                      <span className="metric-num">4</span>
-                      <span className="metric-label">High-Engagement Reels / Mo</span>
-                      <div className="metric-progress-track">
-                        <div className="metric-progress-bar" style={{ width: "100%" }}></div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
 
-                  <div className="deliv-checklist">
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Content Strategy Development</h5>
-                        <p>Custom roadmap aligned with hiring seasons and market demands.</p>
+                  <div className="keyword-detail-display">
+                    <div className="kd-glass-card" style={{ padding: "24px", border: "1px solid rgba(201, 168, 76, 0.2)", background: "rgba(13, 20, 38, 0.8)" }}>
+                      <div className="kd-header" style={{ marginBottom: "16px", paddingBottom: "10px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
+                        <h3 style={{ color: "#FFF" }}>{SLIDE_OUTLINE[activeSlideNum - 1].title}</h3>
+                        <span className="badge" style={{ color: "#C9A84C", background: "rgba(201, 168, 76, 0.08)", borderColor: "rgba(201,168,76,0.2)" }}>Strategy Focus</span>
                       </div>
-                    </div>
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Copywriting & Hook Creation</h5>
-                        <p>Persuasive writing to retain attention and drive user actions.</p>
-                      </div>
-                    </div>
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Premium Creative Design</h5>
-                        <p>Custom brand templates, infographics, and scroll-stopping visuals.</p>
-                      </div>
-                    </div>
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Posting & Queue Scheduling</h5>
-                        <p>Optimized timing for maximum reach across LinkedIn, Instagram & FB.</p>
-                      </div>
-                    </div>
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Account & Page Optimization</h5>
-                        <p>Bio setup, story highlight design, and messenger setup.</p>
-                      </div>
-                    </div>
-                    <div className="check-item">
-                      <div className="check-icon"><i className="fa-solid fa-circle-check"></i></div>
-                      <div>
-                        <h5>Organic Outreach & Engagement</h5>
-                        <p>Interacting with prospective business accounts and HR circles.</p>
+                      <div className="kd-explanation">
+                        <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "#F5F5F0" }}>
+                          {SLIDE_OUTLINE[activeSlideNum - 1].desc}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -636,478 +421,260 @@ export default function Home() {
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(2)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(4)}>
-                    View Content Types <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(4)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Our Process →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 5: CONTENT THAT GENERATES LEADS */}
+            {/* CARD 5: THE PROCESS */}
             <section className={`proposal-card ${currentCard === 4 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Value Proposition</span>
-                <h2 className="section-title">We Don't Post For Likes. We Post For Leads.</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>Collaboration Workflow</span>
+                <h2 className="section-title">Discovery to Delivery</h2>
                 <p className="section-desc">
-                  Every graphic, carousel, and video is designed with intent: to attract premium clients.
+                  We operate with structure and speed, requiring minimal time commitment from your end to produce elite-level results.
                 </p>
 
-                <div className="feed-layout">
-                  <div className="feed-categories">
-                    <button 
-                      className={`category-btn ${contentCategory === "employer-tips" ? "active" : ""}`}
-                      onClick={() => setContentCategory("employer-tips")}
-                    >
-                      <i className="fa-solid fa-building-user"></i> Employer Education
-                    </button>
-                    <button 
-                      className={`category-btn ${contentCategory === "success-stories" ? "active" : ""}`}
-                      onClick={() => setContentCategory("success-stories")}
-                    >
-                      <i className="fa-solid fa-trophy"></i> Success Stories
-                    </button>
-                    <button 
-                      className={`category-btn ${contentCategory === "hiring-insights" ? "active" : ""}`}
-                      onClick={() => setContentCategory("hiring-insights")}
-                    >
-                      <i className="fa-solid fa-magnifying-glass-chart"></i> Hiring Insights
-                    </button>
-                    <button 
-                      className={`category-btn ${contentCategory === "job-updates" ? "active" : ""}`}
-                      onClick={() => setContentCategory("job-updates")}
-                    >
-                      <i className="fa-solid fa-bullhorn"></i> Hot Jobs
-                    </button>
+                <div className="strategy-cards">
+                  <div className="strat-card" style={{ background: "rgba(13, 20, 38, 0.65)" }}>
+                    <div className="strat-num" style={{ color: "rgba(201, 168, 76, 0.15)" }}>01</div>
+                    <h3>1. Onboarding & Assets</h3>
+                    <p>Collecting brand briefs, compliance values, and current case studies from your desk.</p>
                   </div>
-
-                  <div className="interactive-phone-container">
-                    <div className="phone-mockup">
-                      <div className="phone-notch"></div>
-                      <div className="phone-screen">
-                        <div className="mock-instagram-header">
-                          <div className="ig-user">
-                            <div className="ig-avatar">RP</div>
-                            <div>
-                              <span className="ig-username">rojgari_placements</span>
-                              <span className="ig-location">Sponsored</span>
-                            </div>
-                          </div>
-                          <i className="fa-solid fa-ellipsis"></i>
-                        </div>
-                        <div className="mock-instagram-content">
-                          <div className="post-creative" style={{ background: activePost.gradient }}>
-                            <h3>{activePost.title}</h3>
-                            <p>{activePost.body}</p>
-                            <span className="post-cta">{activePost.cta}</span>
-                          </div>
-                        </div>
-                        <div className="mock-instagram-footer">
-                          <div className="ig-actions">
-                            <div>
-                              <i 
-                                className={`fa-heart ig-heart ${isLiked ? "fa-solid liked" : "fa-regular"}`}
-                                onClick={handleLike}
-                              ></i>
-                              <i className="fa-regular fa-comment"></i>
-                              <i className="fa-regular fa-paper-plane"></i>
-                            </div>
-                            <i className="fa-regular fa-bookmark"></i>
-                          </div>
-                          <div className="ig-likes">
-                            {likes.toLocaleString()} likes
-                          </div>
-                          <div className="ig-caption">
-                            <strong>rojgari_placements</strong> {activePost.caption}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="strat-card" style={{ background: "rgba(13, 20, 38, 0.65)" }}>
+                    <div className="strat-num" style={{ color: "rgba(201, 168, 76, 0.15)" }}>02</div>
+                    <h3>2. Copywriting Draft</h3>
+                    <p>Structuring the verbal flow, slide headers, and taglines for your conceptual sign-off.</p>
+                  </div>
+                  <div className="strat-card" style={{ background: "rgba(13, 20, 38, 0.65)" }}>
+                    <div className="strat-num" style={{ color: "rgba(201, 168, 76, 0.15)" }}>03</div>
+                    <h3>3. Master Design Build</h3>
+                    <p>Executing high-fidelity layouts, customized gold UI elements, and custom typography.</p>
+                  </div>
+                  <div className="strat-card" style={{ background: "rgba(13, 20, 38, 0.65)" }}>
+                    <div className="strat-num" style={{ color: "rgba(201, 168, 76, 0.15)" }}>04</div>
+                    <h3>4. Revisions & Export</h3>
+                    <p>Refining through feedback loops and exporting the final print-ready and digital vector PDF formats.</p>
                   </div>
                 </div>
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(3)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(5)}>
-                    Organic Strategy <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(5)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Visual Style →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 6: ORGANIC GROWTH ACTIVITIES */}
+            {/* CARD 6: VISUAL AESTHETICS */}
             <section className={`proposal-card ${currentCard === 5 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Audience Building</span>
-                <h2 className="section-title">Growing Your Audience Consistently</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>Design Language</span>
+                <h2 className="section-title">Corporate Luxury Aesthetic</h2>
                 <p className="section-desc">
-                  Behind-the-scenes community cultivation to ensure your agency expands its reach day-by-day.
+                  By matching your website’s high-contrast theme, we establish instant visual association, reinforcing your position as an elite UAE boutique consultancy.
                 </p>
 
-                <div className="organic-dashboard">
-                  <div className="dashboard-graph">
-                    <div className="graph-header">
-                      <span>Reach Metrics Growth Simulator</span>
-                      <span className="percentage-badge"><i className="fa-solid fa-arrow-trend-up"></i> +240%</span>
+                <div className="deliverables-layout">
+                  <div className="deliv-main-grid">
+                    <div className="deliv-metric-card" style={{ background: "linear-gradient(135deg, #0A0F1E, #070B16)", border: "1px solid rgba(201, 168, 76, 0.2)" }}>
+                      <span className="metric-label" style={{ color: "#C9A84C" }}>Base Canvas</span>
+                      <span className="metric-num" style={{ fontSize: "1.6rem" }}>Midnight Navy (#0A0F1E)</span>
+                      <p style={{ fontSize: "0.8rem", color: "#9CA3AF" }}>Deep, stable tones projecting regulatory trust and institutional capacity.</p>
                     </div>
-                    <div className="sim-bars">
-                      <div className="sim-bar-col">
-                        <div className="sim-bar-fill" style={{ height: barsTriggered ? "20%" : "0%" }}></div>
-                        <span>Wk 1</span>
-                      </div>
-                      <div className="sim-bar-col">
-                        <div className="sim-bar-fill" style={{ height: barsTriggered ? "35%" : "0%" }}></div>
-                        <span>Wk 2</span>
-                      </div>
-                      <div className="sim-bar-col">
-                        <div className="sim-bar-fill" style={{ height: barsTriggered ? "55%" : "0%" }}></div>
-                        <span>Wk 3</span>
-                      </div>
-                      <div className="sim-bar-col">
-                        <div className="sim-bar-fill" style={{ height: barsTriggered ? "90%" : "0%" }}></div>
-                        <span>Wk 4</span>
-                      </div>
+                    <div className="deliv-metric-card" style={{ background: "linear-gradient(135deg, rgba(201, 168, 76, 0.05), rgba(201, 168, 76, 0.15))", border: "1px solid rgba(201, 168, 76, 0.3)" }}>
+                      <span className="metric-label" style={{ color: "#FFF" }}>Primary Accent</span>
+                      <span className="metric-num" style={{ fontSize: "1.6rem", color: "#C9A84C" }}>UAE Desert Gold (#C9A84C)</span>
+                      <p style={{ fontSize: "0.8rem", color: "#F5F5F0" }}>Symbolizing premium advisory, wealth curation, and elite setups.</p>
                     </div>
                   </div>
 
-                  <div className="activities-grid">
-                    <div className="activity-card">
-                      <i className="fa-solid fa-hashtag text-accent"></i>
-                      <h4>Hashtag Auditing</h4>
-                      <p>Targeting exact industry-specific tags to capture business queries.</p>
+                  <div className="deliv-checklist">
+                    <div className="check-item">
+                      <div className="check-icon" style={{ color: "#C9A84C" }}>✓</div>
+                      <div>
+                        <h5>Geometric Grid Balance</h5>
+                        <p>Perfect grid alignment to prevent layout clutter and ensure readability on all viewports.</p>
+                      </div>
                     </div>
-                    <div className="activity-card">
-                      <i className="fa-solid fa-comments text-accent"></i>
-                      <h4>HR Engagement</h4>
-                      <p>Commenting on and engaging with key decision-makers & companies.</p>
+                    <div className="check-item">
+                      <div className="check-icon" style={{ color: "#C9A84C" }}>✓</div>
+                      <div>
+                        <h5>DM Sans Typography</h5>
+                        <p>Modern geometric sans-serif headings paired with clean, highly readable body lines.</p>
+                      </div>
                     </div>
-                    <div className="activity-card">
-                      <i className="fa-solid fa-magnifying-glass-chart"></i>
-                      <h4>Competitor Insights</h4>
-                      <p>Analyzing competitor growth channels and redirecting traffic to you.</p>
-                    </div>
-                    <div className="activity-card">
-                      <i className="fa-solid fa-wand-magic-sparkles"></i>
-                      <h4>Profile Optimization</h4>
-                      <p>Crafting high-converting profile hooks, call-to-actions, and link pages.</p>
+                    <div className="check-item">
+                      <div className="check-icon" style={{ color: "#C9A84C" }}>✓</div>
+                      <div>
+                        <h5>Minimalistic Corporate Graphics</h5>
+                        <p>Avoiding standard stock photos in favor of neat icons, abstract gold lines, and premium maps.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(4)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(6)}>
-                    SEO Search Strategy <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(6)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Copywriting Style →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 7: SEO GROWTH PACKAGE */}
+            {/* CARD 7: COPYWRITING TRANSFORMER */}
             <section className={`proposal-card ${currentCard === 6 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Search Domination</span>
-                <h2 className="section-title">Be Found When People Search</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>Persuasive Copy</span>
+                <h2 className="section-title">Strategic Translation Engine</h2>
                 <p className="section-desc">
-                  93% of online experiences begin with a search engine. We put you right where your clients look.
+                  We refine standard, flat explanations into high-converting copywriting tailored for family offices, investors, and startup founders. Click below to preview:
                 </p>
 
-                <div className="seo-interactive-workspace">
-                  <div className="search-engine-simulator">
-                    <div className="sim-browser-head">
-                      <div className="window-dot red"></div>
-                      <div className="window-dot yellow"></div>
-                      <div className="window-dot green"></div>
-                      <div className="sim-address">google.com/search</div>
-                    </div>
-                    <div className="sim-browser-body">
-                      <div className="search-input-box">
-                        <i className="fa-solid fa-magnifying-glass text-muted"></i>
-                        <input type="text" value={seoSearchVal} readOnly />
-                        <button className="search-action-btn">Search</button>
-                      </div>
-                      <div className="search-results-list">
-                        <div className="google-ad-result">
-                          <span className="ad-badge">Ad</span>
-                          <h3>Competitor Placements - Expensive Pay-Per-Click</h3>
-                          <p>Paying Google for every click. Costs add up fast with minimal organic credibility.</p>
-                        </div>
-                        <div className="google-organic-result ranking-highlight">
-                          <span className="rank-pos">#1 Organic Rank</span>
-                          <h3>Rojgari Placements | Top Recruitment Consultant</h3>
-                          <p>Find the best jobs and staff recruitment services in India. 100% verified placement solutions. Contact today!</p>
-                        </div>
-                        <div className="google-organic-result">
-                          <h3>Random Job Consultancy Group</h3>
-                          <p>Providing generic human resources recruiting agency and search services...</p>
-                        </div>
-                      </div>
-                    </div>
+                <div className="feed-layout">
+                  <div className="feed-categories">
+                    {COPY_TRANSFORMATIONS.map((variant, index) => (
+                      <button 
+                        key={variant.badge}
+                        className={`category-btn ${copyVariant === index ? "active" : ""}`}
+                        onClick={() => setCopyVariant(index)}
+                        style={{
+                          borderColor: copyVariant === index ? "#C9A84C" : "rgba(255,255,255,0.05)",
+                          background: copyVariant === index ? "rgba(201, 168, 76, 0.1)" : "transparent",
+                          color: copyVariant === index ? "#C9A84C" : "#9CA3AF"
+                        }}
+                      >
+                        🎯 {variant.badge}
+                      </button>
+                    ))}
                   </div>
 
-                  <div className="seo-pillars">
-                    <div className="pillar-box">
-                      <div className="pillar-icon"><i className="fa-solid fa-gears"></i></div>
-                      <div>
-                        <h4>Technical SEO</h4>
-                        <p>Speed, mobile responsiveness, and clean architecture.</p>
-                      </div>
+                  <div className="kd-glass-card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", border: "1px solid rgba(201, 168, 76, 0.2)", background: "rgba(13, 20, 38, 0.7)" }}>
+                    <div style={{ marginBottom: "16px" }}>
+                      <span className="party-title" style={{ color: "#ef4444", fontSize: "0.8rem", letterSpacing: "1px" }}>STANDARD COPY (BORING)</span>
+                      <p style={{ fontSize: "0.95rem", color: "#9CA3AF", fontStyle: "italic", background: "rgba(239, 68, 68, 0.03)", padding: "12px", borderRadius: "8px", border: "1px solid rgba(239, 68, 68, 0.1)" }}>
+                        "{COPY_TRANSFORMATIONS[copyVariant].before}"
+                      </p>
                     </div>
-                    <div className="pillar-box">
-                      <div className="pillar-icon"><i className="fa-solid fa-file-pen"></i></div>
-                      <div>
-                        <h4>On-Page SEO</h4>
-                        <p>Targeted keywords, structure, internal linking, and content.</p>
-                      </div>
-                    </div>
-                    <div className="pillar-box">
-                      <div className="pillar-icon"><i className="fa-solid fa-link"></i></div>
-                      <div>
-                        <h4>Off-Page SEO</h4>
-                        <p>Authority backlinks, citation syndication, and brand mentions.</p>
-                      </div>
+                    <div>
+                      <span className="party-title" style={{ color: "#C9A84C", fontSize: "0.8rem", letterSpacing: "1px" }}>MUTANT COPY HOOK (ELITE)</span>
+                      <p style={{ fontSize: "1.1rem", color: "#FFF", fontWeight: "600", background: "rgba(201, 168, 76, 0.05)", padding: "12px", borderRadius: "8px", border: "1px solid rgba(201, 168, 76, 0.15)" }}>
+                        "{COPY_TRANSFORMATIONS[copyVariant].after}"
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="navigation-controls">
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(5)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(7)}>
-                    Keyword Targeting <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(7)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Deliverables →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 8: 10 KEYWORD RANKING CAMPAIGN */}
+            {/* CARD 8: DELIVERABLES */}
             <section className={`proposal-card ${currentCard === 7 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Targeted Traffic</span>
-                <h2 className="section-title">10 Keyword Ranking Campaign</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>What You Get</span>
+                <h2 className="section-title">Premium Deliverable Formats</h2>
                 <p className="section-desc">
-                  We target buying-intent keywords that employers and job seekers type when ready to hire or apply.
+                  We supply clean, high-resolution formats configured specifically for modern digital reading, email attachments, and web integration.
                 </p>
 
-                <div className="keywords-interactive-display">
-                  <div className="keywords-list-side">
-                    {KEYWORD_DATA.map((kw, index) => (
-                      <div
-                        key={kw.title}
-                        className={`keyword-selector ${selectedKw === index ? "active" : ""}`}
-                        onClick={() => setSelectedKw(index)}
-                      >
-                        <span className="kw-text">{kw.title}</span>
-                        <span className="kw-arrow"><i className="fa-solid fa-angle-right"></i></span>
-                      </div>
-                    ))}
+                <div className="goals-grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C", padding: "20px" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>📄</div>
+                    <h4>High-Definition Interactive PDF</h4>
+                    <p>Designed for digital shares, including fully active hyperlinked communication channels pointing to your website, phone line, or WhatsApp direct chat.</p>
                   </div>
-
-                  <div className="keyword-detail-display">
-                    <div className="kd-glass-card">
-                      <div className="kd-header">
-                        <h3>{KEYWORD_DATA[selectedKw].title}</h3>
-                        <span className="badge badge-accent">Targeted Keyword</span>
-                      </div>
-                      <div className="kd-metrics-row">
-                        <div className="kd-metric">
-                          <span className="kd-label">Est. Searches / Mo</span>
-                          <span className="kd-val">{KEYWORD_DATA[selectedKw].vol}</span>
-                        </div>
-                        <div className="kd-metric">
-                          <span className="kd-label">Ranking Difficulty</span>
-                          <span className="kd-val">{KEYWORD_DATA[selectedKw].diff}</span>
-                        </div>
-                        <div className="kd-metric">
-                          <span className="kd-label">Business Value</span>
-                          <span className="kd-val text-success">{KEYWORD_DATA[selectedKw].value}</span>
-                        </div>
-                      </div>
-                      <div className="kd-explanation">
-                        <p>{KEYWORD_DATA[selectedKw].exp}</p>
-                      </div>
-                    </div>
+                  <div className="goal-item" style={{ borderLeft: "3px solid #C9A84C", padding: "20px" }}>
+                    <div className="goal-icon" style={{ color: "#C9A84C" }}>🖼️</div>
+                    <h4>Lossless High-Res PNG Panels</h4>
+                    <p>Individual image assets of every slide panel, ideal for embedding directly onto your web pages or digital marketing collateral.</p>
                   </div>
                 </div>
 
-                <div className="navigation-controls">
+                <div className="navigation-controls" style={{ marginTop: "40px" }}>
                   <button className="btn btn-secondary prev-card" onClick={() => navigateTo(6)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
+                    ← Back
                   </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(8)}>
-                    See Free Technology <i className="fa-solid fa-chevron-right"></i>
+                  <button className="btn btn-primary next-card" onClick={() => navigateTo(8)} style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E" }}>
+                    Investment Details →
                   </button>
                 </div>
               </div>
             </section>
 
-            {/* CARD 9: FREE MUTANT PIXEL */}
+            {/* CARD 9: INVESTMENT & TERMS */}
             <section className={`proposal-card ${currentCard === 8 ? "active" : ""}`}>
               <div className="card-content">
-                <span className="section-tag">Proprietary Technology</span>
-                <h2 className="section-title">FREE Mutant Pixel™ Integration</h2>
-                <p className="section-desc">
-                  Know exactly who visits your site, how they behave, and what channels bring in clients.
-                </p>
-
-                <div className="pixel-interactive-demo">
-                  <div className="pixel-left-pane">
-                    <div className="pixel-status-badge">
-                      <span className="pulse-indicator"></span>
-                      <span>Mutant Pixel™: Active & Tracking</span>
-                    </div>
-                    <h3>Live Visitor Behavior Simulator</h3>
-                    <p className="demo-instructions">
-                      Move your cursor or tap inside the sandbox below. Watch the Mutant Pixel dashboard interpret actions in real-time!
-                    </p>
-                    
-                    <div 
-                      className="tracking-sandbox" 
-                      ref={sandboxRef}
-                      onMouseMove={handleSandboxMouseMove}
-                      onClick={handleSandboxClick}
-                      onMouseLeave={handleSandboxLeave}
-                    >
-                      <span className="sandbox-label">INTERACTIVE TRACKING ZONE (Move Mouse / Tap Here)</span>
-                      {cursorPos.visible && (
-                        <div 
-                          className="trail-cursor" 
-                          style={{ left: cursorPos.x, top: cursorPos.y, display: "block" }}
-                        ></div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="pixel-right-pane">
-                    <div className="dashboard-mock">
-                      <div className="db-title-row">
-                        <span><i className="fa-solid fa-chart-bar"></i> MutantPixel Live Console</span>
-                        <span className="db-timer">Real-time</span>
-                      </div>
-                      <div className="db-logs">
-                        {pixelLogs.map((log, index) => {
-                          let logClass = "log-entry";
-                          if (log.includes("[SYSTEM]")) logClass += " system";
-                          if (log.includes("[CLICK")) logClass += " event";
-                          return (
-                            <div key={index} className={logClass}>
-                              {log}
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <div className="pixel-summary-numbers">
-                        <div className="summary-num-box">
-                          <span>{interactionCount}</span>
-                          <label>Interactions Captured</label>
-                        </div>
-                        <div className="summary-num-box">
-                          <span>{getEngagementLevel()}</span>
-                          <label>Engagement Level</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="navigation-controls">
-                  <button className="btn btn-secondary prev-card" onClick={() => navigateTo(7)}>
-                    <i className="fa-solid fa-chevron-left"></i> Back
-                  </button>
-                  <button className="btn btn-primary next-card" onClick={() => navigateTo(9)}>
-                    Review Packages <i className="fa-solid fa-chevron-right"></i>
-                  </button>
-                </div>
-              </div>
-            </section>
-
-            {/* CARD 10: INVESTMENT & SPECIAL OFFER */}
-            <section className={`proposal-card ${currentCard === 9 ? "active" : ""}`}>
-              <div className="card-content">
-                <span className="section-tag">Investment & Pricing</span>
-                <h2 className="section-title">Complete Brand & Search Domination</h2>
+                <span className="section-tag" style={{ color: "#C9A84C" }}>Project Investment</span>
+                <h2 className="section-title">Commercial Agreement</h2>
                 
                 <div className="investment-pricing-container">
-                  <div className="price-cards-row">
-                    <div className="price-tier-card">
-                      <h3>Social Media Growth</h3>
-                      <div className="tier-cost">₹14,999<span>/ month</span></div>
-                      <ul className="tier-features">
-                        <li><i className="fa-solid fa-circle-check"></i> 12 Posts & 4 Reels</li>
-                        <li><i className="fa-solid fa-circle-check"></i> Creative Design & Writing</li>
-                        <li><i className="fa-solid fa-circle-check"></i> Account Management</li>
-                      </ul>
-                    </div>
-                    
-                    <div className="pricing-plus"><i className="fa-solid fa-plus"></i></div>
-
-                    <div className="price-tier-card">
-                      <h3>SEO Dominator</h3>
-                      <div className="tier-cost">₹18,000<span>/ month</span></div>
-                      <ul className="tier-features">
-                        <li><i className="fa-solid fa-circle-check"></i> 10 Keyword Ranking Campaign</li>
-                        <li><i className="fa-solid fa-circle-check"></i> Complete Tech & On-Page SEO</li>
-                        <li><i className="fa-solid fa-circle-check"></i> Competitor Analysis & Reporting</li>
+                  <div className="price-cards-row" style={{ display: "flex", justifyContent: "center" }}>
+                    <div className="price-tier-card" style={{ width: "100%", maxWidth: "480px", border: "1.5px solid #C9A84C", background: "rgba(13, 20, 38, 0.85)" }}>
+                      <div className="hot-badge" style={{ background: "#C9A84C", color: "#0A0F1E", fontWeight: "700" }}>PROJECT RATES</div>
+                      <h3 style={{ marginTop: "10px", color: "#FFF" }}>Company Profile Package</h3>
+                      <div className="tier-cost" style={{ color: "#C9A84C" }}>₹12,000<span style={{ fontSize: "1rem", color: "#9CA3AF" }}> / Flat Fee</span></div>
+                      
+                      <ul className="tier-features" style={{ margin: "20px 0", color: "#9CA3AF" }}>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Up to 14 Premium Visual Slides</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Complete Content Strategy & Copywriting</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Professional Vector PDF Formats</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> **50% Advance Payment (₹6,000) to Initiate**</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> Remaining 50% (₹6,000) upon final sign-off</li>
+                        <li style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}><span style={{ color: "#C9A84C" }}>✓</span> 3 Rounds of Project Revisions</li>
                       </ul>
                     </div>
                   </div>
 
-                  {/* Combo Special Card */}
-                  <div className="combo-glow-box">
-                    <div className="hot-badge">Highly Recommended Package</div>
-                    <div className="combo-head">
-                      <h3>Combined Growth Strategy</h3>
-                      <p>Full Social Media + Full Search Engine Domination</p>
-                    </div>
-                    <div className="combo-price-grid">
-                      <div className="old-price">
-                        <span>Regular Price</span>
-                        <del>₹32,999/mo</del>
-                      </div>
-                      <div className="discount-pill">SAVE ₹2,999 EVERY MONTH</div>
-                      <div className="new-price">
-                        <span>Special Combined Deal</span>
-                        <h2 className="glowing-accent">₹30,000 <span>/ month</span></h2>
-                      </div>
-                    </div>
-                    
-                    <div className="combo-deliverables-bullets">
-                      <span><i className="fa-solid fa-square-check"></i> 12 Custom Posts</span>
-                      <span><i className="fa-solid fa-square-check"></i> 4 High Hook Reels</span>
-                      <span><i className="fa-solid fa-square-check"></i> 10 Target Keywords Ranked</span>
-                      <span><i className="fa-solid fa-square-check"></i> Complete Local & Tech SEO</span>
-                      <span><i className="fa-solid fa-square-check"></i> Mutant Pixel™ Installed FREE</span>
-                      <span><i className="fa-solid fa-square-check"></i> Detailed Monthly Reporting</span>
-                    </div>
-
-                    <div className="acceptance-box">
+                  {/* Accept proposal card */}
+                  <div className="combo-glow-box" style={{ maxWidth: "700px", margin: "16px auto 0 auto", border: "1px solid rgba(201, 168, 76, 0.2)", background: "rgba(13, 20, 38, 0.75)" }}>
+                    <div className="acceptance-box" style={{ border: "none", paddingTop: "0" }}>
                       <div className="interactive-sign-box">
-                        <label>Ready to scale Rojgari Placements, Khushi?</label>
+                        <label style={{ color: "#FFF", display: "block", marginBottom: "8px", fontWeight: "600" }}>Ready to launch this Company Profile project, Kuldeep?</label>
                         {contractSigned ? (
-                          <div className="acceptance-status text-success" style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "1.1rem" }}>
-                            <i className="fa-solid fa-circle-check" style={{ fontSize: "1.5rem" }}></i>
-                            <span>Congratulations Khushi! The digital growth campaign registration has been initiated. Mutant Technologies will reach out to you shortly!</span>
+                          <div className="acceptance-status text-success" style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "1rem", color: "#10b981" }}>
+                            <span>🎉 **Accepted & Signed!** Thank you, Kuldeep. We will initiate the project with the 50% advance setup. Let's make this profile extraordinary.</span>
                           </div>
                         ) : (
                           <div className="sign-input-wrapper">
                             <input 
                               type="text" 
-                              placeholder="Enter your name to sign"
+                              placeholder="Enter your name (e.g. Kuldeep Chauhan) to accept"
                               value={clientName}
                               onChange={(e) => setClientName(e.target.value)}
+                              style={{ 
+                                background: "rgba(7, 11, 22, 0.6)", 
+                                border: "1px solid rgba(201,168,76,0.3)",
+                                color: "#FFF",
+                                padding: "10px 14px",
+                                borderRadius: "6px",
+                                flexGrow: "1"
+                              }}
                             />
                             <button 
                               className="btn btn-primary"
                               onClick={handleAcceptProposal}
                               disabled={isSigning}
+                              style={{ background: "linear-gradient(135deg, #B8892A, #C9A84C)", border: "none", color: "#0A0F1E", fontWeight: "700", padding: "10px 20px" }}
                             >
-                              {isSigning ? "Processing..." : "Let's Partner Up"} <i className="fa-solid fa-rocket"></i>
+                              {isSigning ? "Signing..." : "Accept Proposal"}
                             </button>
                           </div>
                         )}
@@ -1116,13 +683,20 @@ export default function Home() {
                   </div>
                 </div>
 
-
+                <div className="navigation-controls">
+                  <button className="btn btn-secondary prev-card" onClick={() => navigateTo(7)}>
+                    ← Back
+                  </button>
+                  <button className="btn btn-accent reset-deck-btn" onClick={() => navigateTo(0)} style={{ border: "1px solid rgba(201, 168, 76, 0.3)", background: "transparent", color: "#C9A84C" }}>
+                    ↻ Restart View
+                  </button>
+                </div>
               </div>
             </section>
           </main>
 
-          <footer className="proposal-footer">
-            <p>&copy; 2026 Mutant Technologies. Confidentially prepared for Rojgari Placements.</p>
+          <footer className="proposal-footer" style={{ borderTop: "1px solid rgba(201, 168, 76, 0.1)", background: "rgba(7, 11, 22, 0.95)" }}>
+            <p>&copy; 2026 Mutant Technologies. Confidentially prepared for Ultron Financials. All Rights Reserved.</p>
           </footer>
         </>
       )}
